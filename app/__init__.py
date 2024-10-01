@@ -59,9 +59,9 @@ def create_app():
         job.salary_min = 10000
         job.salary_max = 15000
         job.contract_type = ["B2B"]
-        job.work_mode = ["Remote"]
-        job.experience_level = ["Mid"]
-        job.job_type = ["Full-time"]
+        job.work_mode = ["remote"]
+        job.experience_level = ["mid"]
+        job.job_type = ["full_time"]
         job.description = (
             "We are looking for an experienced Python Developer to join our team."
         )
