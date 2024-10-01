@@ -46,30 +46,30 @@ def create_app():
     )
     from .utils.enums import ExperienceEnum, JobTypeEnum, ContractEnum, WorkModeEnum
 
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
-        company = Company()
-        company.name = "Coflow"
-        company.description = "Best IT Company."
-        db.session.add(company)
-        job = Job()
-        job.title = "Python Developer"
-        job.salary_min = 10000
-        job.salary_max = 15000
-        job.contract_type = ["B2B"]
-        job.work_mode = ["Remote"]
-        job.experience_level = ["Mid"]
-        job.job_type = ["Full-time"]
-        job.description = (
-            "We are looking for an experienced Python Developer to join our team."
-        )
-        job.requirements = {"skills": ["Python", "Flask", "SQLAlchemy"]}
-        job.location = ["Warsaw", "Remote"]
-        job.start_date = datetime.utcnow()
-        job.end_date = None  # Oferta bez określonej daty zakończenia
-        job.company_id = company.id  # Powiązanie oferty pracy z firmą
+    # with app.app_context():
+    # db.drop_all()
+    # db.create_all()
+    # company = Company()
+    # company.name = "Coflow"
+    # company.description = "Best IT Company."
+    # db.session.add(company)
+    # job = Job()
+    # job.title = "Python Developer"
+    # job.salary_min = 10000
+    # job.salary_max = 15000
+    # job.contract_type = ["B2B"]
+    # job.work_mode = ["Remote"]
+    # job.experience_level = ["Mid"]
+    # job.job_type = ["Full-time"]
+    # job.description = (
+    #     "We are looking for an experienced Python Developer to join our team."
+    # )
+    # job.requirements = {"skills": ["Python", "Flask", "SQLAlchemy"]}
+    # job.location = ["Warsaw", "Remote"]
+    # job.start_date = datetime.utcnow()
+    # job.end_date = None  # Oferta bez określonej daty zakończenia
+    # job.company_id = company.id  # Powiązanie oferty pracy z firmą
 
-        db.session.add(job)
-        db.session.commit()  # Zapisanie zmiany w bazie
+    # db.session.add(job)
+    # db.session.commit()  # Zapisanie zmiany w bazie
     return app
