@@ -115,11 +115,34 @@ class JobDetailAPI(MethodView):
 
 class JobListAPIPublic(MethodView):
 
-    def get(self, job_id):
-        job = Job.query.get_or_404(job_id)
-        job_schema = JobSchema()
-        result = job_schema.dump(job)
-        return jsonify(result), 200
+    def get(self):
+        # Pobierz listę ofert pracy z paginacją
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 10, type=int)
+        per_page = min(per_page, 50)
+
+        pagination = Job.query.paginate(page=page, per_page=per_page, error_out=False)
+        jobs = pagination.items
+
+        job_schema = JobSchema(many=True)
+        result = job_schema.dump(jobs)
+
+        return (
+            jsonify(
+                {
+                    "jobs": result,
+                    "page": pagination.page,
+                    "per_page": pagination.per_page,
+                    "total": pagination.total,
+                    "pages": pagination.pages,
+                    "has_next": pagination.has_next,
+                    "has_prev": pagination.has_prev,
+                    "next_page": pagination.next_num,
+                    "prev_page": pagination.prev_num,
+                }
+            ),
+            200,
+        )
 
 
 class JobSchema(Schema):
@@ -145,7 +168,7 @@ job_list_view = JobListAPI.as_view("job_list_api")
 job_list_view_public = JobListAPIPublic.as_view("job_list_api_public")
 job_detail_view = JobDetailAPI.as_view("job_detail_api")
 
-bp.add_url_rule("/public/", view_func=job_list_view, methods=["GET", "POST"])
+bp.add_url_rule("/public/", view_func=job_list_view_public, methods=["GET"])
 bp.add_url_rule("/", view_func=job_list_view, methods=["GET", "POST"])
 bp.add_url_rule(
     "/<int:job_id>", view_func=job_detail_view, methods=["GET", "PUT", "DELETE"]
