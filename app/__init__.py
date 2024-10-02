@@ -16,7 +16,13 @@ def create_app():
         app,
         supports_credentials=True,
         resources={
-            r"/*": {"origins": [f"{app.config['FRONTEND_URL']}", "https://coflow.pl"]}
+            r"/*": {
+                "origins": [
+                    f"{app.config['FRONTEND_URL']}",
+                    "https://coflow.pl",
+                    "http://srv56856.seohost.com.pl",
+                ]
+            }
         },
         allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "DELETE"],
