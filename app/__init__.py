@@ -15,7 +15,9 @@ def create_app():
     CORS(
         app,
         supports_credentials=True,
-        resources={r"/*": {"origins": f"{app.config['FRONTEND_URL']}"}},
+        resources={
+            r"/*": {"origins": [f"{app.config['FRONTEND_URL']}", "https://coflow.pl"]}
+        },
         allow_headers=["Content-Type", "Authorization"],
         methods=["GET", "POST", "PUT", "DELETE"],
     )

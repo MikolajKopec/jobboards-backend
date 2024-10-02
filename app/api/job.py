@@ -113,7 +113,13 @@ class JobDetailAPI(MethodView):
         return jsonify({"message": "Job deleted"}), 200
 
 
-# Update your model to use these Enums
+class JobListAPIPublic(MethodView):
+
+    def get(self, job_id):
+        job = Job.query.get_or_404(job_id)
+        job_schema = JobSchema()
+        result = job_schema.dump(job)
+        return jsonify(result), 200
 
 
 class JobSchema(Schema):
@@ -136,8 +142,10 @@ class JobSchema(Schema):
 
 
 job_list_view = JobListAPI.as_view("job_list_api")
+job_list_view_public = JobListAPIPublic.as_view("job_list_api_public")
 job_detail_view = JobDetailAPI.as_view("job_detail_api")
 
+bp.add_url_rule("/public/", view_func=job_list_view, methods=["GET", "POST"])
 bp.add_url_rule("/", view_func=job_list_view, methods=["GET", "POST"])
 bp.add_url_rule(
     "/<int:job_id>", view_func=job_detail_view, methods=["GET", "PUT", "DELETE"]
